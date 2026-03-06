@@ -34,8 +34,8 @@ export default function PostersPage() {
           Updates automatically · 20″×28″
         </p>
         <a
-          href="/one-god-one-message.pdf"
-          download="One God · One Message.pdf"
+          href="/posters/print"
+          target="_blank"
           className="text-[#C9923A] text-xs font-bold tracking-widest uppercase border border-[#C9923A44] px-4 py-2 rounded hover:bg-[#C9923A22] transition-colors"
           style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
