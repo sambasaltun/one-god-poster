@@ -31,7 +31,7 @@ export default function PostersPage() {
           className="text-white/25 text-xs tracking-widest uppercase"
           style={{ fontFamily: 'var(--font-space-grotesk)' }}
         >
-          Updates automatically · 50×70cm
+          Updates automatically · 20″×28″
         </p>
         <a
           href="/posters/print"
