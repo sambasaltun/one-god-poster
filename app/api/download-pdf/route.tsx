@@ -2,9 +2,11 @@ import { NextResponse } from 'next/server'
 import { readFileSync, existsSync } from 'fs'
 import path from 'path'
 import React from 'react'
-import { Document, Page, View, Text, Image, renderToBuffer } from '@react-pdf/renderer'
+import { Document, Page, View, Text, Image, renderToStream } from '@react-pdf/renderer'
+import { Readable } from 'stream'
 
 export const dynamic = 'force-dynamic'
+export const maxDuration = 60
 
 function loadImage(filename: string): string {
   const safe = path.basename(filename)
@@ -139,13 +141,21 @@ export async function GET() {
     logo: loadImage(data.logoImage),
   }
 
-  const buffer = await renderToBuffer(<PosterDoc data={data} imgs={imgs} />)
-  const uint8 = new Uint8Array(buffer)
+  const nodeStream = await renderToStream(<PosterDoc data={data} imgs={imgs} />)
 
-  return new NextResponse(uint8, {
+  const webStream = new ReadableStream({
+    start(controller) {
+      const readable = nodeStream as unknown as Readable
+      readable.on('data', (chunk: Buffer) => controller.enqueue(chunk))
+      readable.on('end', () => controller.close())
+      readable.on('error', (err: Error) => controller.error(err))
+    },
+  })
+
+  return new NextResponse(webStream, {
     headers: {
       'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename="One God · One Message.pdf"',
+      'Content-Disposition': "attachment; filename=\"One-God-One-Message.pdf\"; filename*=UTF-8''One%20God%20%C2%B7%20One%20Message.pdf",
     },
   })
 }
