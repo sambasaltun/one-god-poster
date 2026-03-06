@@ -26,12 +26,22 @@ export default function PostersPage() {
 
       <PosterLive initialData={initialData} />
 
-      <p
-        className="mt-6 text-white/25 text-xs tracking-widest uppercase text-center"
-        style={{ fontFamily: 'var(--font-space-grotesk)' }}
-      >
-        Updates automatically · 50×70cm · Print Ready
-      </p>
+      <div className="mt-6 flex items-center gap-6">
+        <p
+          className="text-white/25 text-xs tracking-widest uppercase"
+          style={{ fontFamily: 'var(--font-space-grotesk)' }}
+        >
+          Updates automatically · 50×70cm
+        </p>
+        <a
+          href="/posters/print"
+          target="_blank"
+          className="text-[#C9923A] text-xs font-bold tracking-widest uppercase border border-[#C9923A44] px-4 py-2 rounded hover:bg-[#C9923A22] transition-colors"
+          style={{ fontFamily: 'var(--font-space-grotesk)' }}
+        >
+          ↓ Save PDF
+        </a>
+      </div>
     </main>
   )
 }
