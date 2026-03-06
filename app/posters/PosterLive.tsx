@@ -63,6 +63,12 @@ export default function PosterLive({ initialData }: { initialData: PosterData })
     return () => clearInterval(id)
   }, [poll])
 
+  // Full page reload every 60s to catch Vercel deployments (code/layout changes)
+  useEffect(() => {
+    const id = setInterval(() => window.location.reload(), 60_000)
+    return () => clearInterval(id)
+  }, [])
+
   const img = (filename: string) => `/api/images/${filename}?v=${imgVersion}`
   const font = { fontFamily: 'var(--font-space-grotesk), sans-serif' }
 
