@@ -9,7 +9,7 @@ export default function PostersPage() {
   const initialData = JSON.parse(readFileSync(dataPath, 'utf-8'))
 
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center justify-center py-8 px-4">
+    <main className="h-dvh bg-black flex flex-col items-center justify-center py-6 px-4 overflow-hidden">
       {/* Live badge */}
       <div className="flex items-center gap-2 mb-6">
         <span className="relative flex h-2.5 w-2.5">

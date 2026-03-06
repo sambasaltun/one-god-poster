@@ -20,12 +20,31 @@ export default function PosterLive({ initialData }: { initialData: PosterData })
   const [data, setData] = useState<PosterData>(initialData)
   const versionRef = useRef<number>(0)
   const [imgVersion, setImgVersion] = useState<number>(0)
+  const posterRef = useRef<HTMLDivElement>(null)
+  const [scaled, setScaled] = useState({ w: 500, h: 700 })
+
+  // Recalculate scale whenever viewport changes — accounts for both width AND height
+  const recalc = useCallback(() => {
+    const vw = window.innerWidth
+    const vh = window.innerHeight
+    const CHROME = 160 // px reserved for badge + bottom bar + padding
+    const scaleW = Math.min((vw - 32) / 500, 1)
+    const scaleH = Math.min((vh - CHROME) / 700, 1)
+    const scale = Math.min(scaleW, scaleH)
+    if (posterRef.current) posterRef.current.style.transform = `scale(${scale})`
+    setScaled({ w: Math.round(500 * scale), h: Math.round(700 * scale) })
+  }, [])
+
+  useEffect(() => {
+    recalc()
+    window.addEventListener('resize', recalc)
+    return () => window.removeEventListener('resize', recalc)
+  }, [recalc])
 
   const poll = useCallback(async () => {
     try {
       const res = await fetch('/api/poster-version', { cache: 'no-store' })
       const { version } = await res.json() as { version: number }
-
       if (version !== versionRef.current) {
         versionRef.current = version
         setImgVersion(version)
@@ -44,40 +63,24 @@ export default function PosterLive({ initialData }: { initialData: PosterData })
     return () => clearInterval(id)
   }, [poll])
 
-  // Cache-bust images whenever version changes
   const img = (filename: string) => `/api/images/${filename}?v=${imgVersion}`
-
   const font = { fontFamily: 'var(--font-space-grotesk), sans-serif' }
 
   return (
-    /* Responsive scale: render at 500px, scale down on small screens */
     <div className="w-full flex justify-center">
-      <div
-        style={{
-          width: 'min(500px, calc(100vw - 2rem))',
-          aspectRatio: '5 / 7',
-          position: 'relative',
-        }}
-      >
+      {/* Wrapper matches the scaled poster size so surrounding layout stays tight */}
+      <div style={{ width: scaled.w, height: scaled.h, position: 'relative', flexShrink: 0 }}>
         <div
+          ref={posterRef}
           style={{
             width: 500,
             height: 700,
             transformOrigin: 'top left',
-            transform: 'scale(var(--poster-scale, 1))',
             overflow: 'hidden',
             backgroundColor: '#0A1628',
             display: 'flex',
             flexDirection: 'column',
             boxShadow: '0 32px 80px rgba(0,0,0,0.8)',
-          }}
-          ref={(el) => {
-            if (!el) return
-            const parent = el.parentElement
-            if (!parent) return
-            const scale = parent.clientWidth / 500
-            el.style.setProperty('--poster-scale', String(scale))
-            el.style.transform = `scale(${scale})`
           }}
         >
           {/* ── HERO SECTION ───────────────────────────────── */}
