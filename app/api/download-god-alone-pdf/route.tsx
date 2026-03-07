@@ -8,12 +8,21 @@ import { Readable } from 'stream'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
 
-// Register Oswald Bold for consistent rendering across web + PDF
-Font.register({
-  family: 'Oswald',
-  src: path.join(process.cwd(), 'public', 'fonts', 'Oswald-Bold.ttf'),
-  fontWeight: 700,
-})
+let oswaldRegistered = false
+function ensureOswaldRegistered() {
+  if (oswaldRegistered) return
+  try {
+    const fontPath = path.join(process.cwd(), 'public', 'fonts', 'Oswald-Bold.ttf')
+    if (existsSync(fontPath)) {
+      Font.register({ family: 'Oswald', src: fontPath, fontWeight: 700 })
+      oswaldRegistered = true
+    }
+  } catch {
+    // fall back to Helvetica if font registration fails
+  }
+}
+
+const OSWALD: string = 'Oswald'
 
 // 50cm × 70cm in points (1cm = 28.3465pt)
 const CM = 28.3465
@@ -175,6 +184,8 @@ function GodAloneDoc({ heroSrc, logoSrc, submittersSrc, qrSrc }: {
 }
 
 export async function GET() {
+  ensureOswaldRegistered()
+
   const [heroSrc, logoSrc, submittersSrc, qrSrc] = await Promise.all([
     Promise.resolve(loadImage('generated-1772868349064.png')),
     Promise.resolve(loadImage('logo-transparent.png')),
@@ -182,16 +193,24 @@ export async function GET() {
     fetchQRCode('https://wikisubmission.org'),
   ])
 
-  const nodeStream = await renderToStream(
-    <GodAloneDoc heroSrc={heroSrc} logoSrc={logoSrc} submittersSrc={submittersSrc} qrSrc={qrSrc} />
-  )
+  let nodeStream: Readable
+  try {
+    nodeStream = await renderToStream(
+      <GodAloneDoc heroSrc={heroSrc} logoSrc={logoSrc} submittersSrc={submittersSrc} qrSrc={qrSrc} />
+    ) as unknown as Readable
+  } catch (err) {
+    console.error('[PDF] renderToStream failed:', err)
+    return new NextResponse('PDF generation failed', { status: 500 })
+  }
 
   const webStream = new ReadableStream({
     start(controller) {
-      const readable = nodeStream as unknown as Readable
-      readable.on('data', (chunk: Buffer) => controller.enqueue(chunk))
-      readable.on('end', () => controller.close())
-      readable.on('error', (err: Error) => controller.error(err))
+      nodeStream.on('data', (chunk: Buffer) => controller.enqueue(chunk))
+      nodeStream.on('end', () => controller.close())
+      nodeStream.on('error', (err: Error) => {
+        console.error('[PDF] stream error:', err)
+        controller.error(err)
+      })
     },
   })
 
