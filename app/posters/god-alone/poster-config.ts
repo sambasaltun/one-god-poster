@@ -16,14 +16,14 @@ export const PALETTE = {
   aloneText:    '#D97706',  // amber
   sepColor:     '#FBBF24',  // gold separator
   verseBg:      '#FFFFFF',
-  quoteText:    '#111827',
-  citationText: '#6B7280',
+  quoteText:    '#111111',
+  citationText: '#888888',
   ctaBg:        '#0C2D5A',  // navy
   ctaText:      '#FFFFFF',
-  ctaSub:       'rgba(255,255,255,0.55)',
+  ctaSub:       'rgba(255,255,255,0.53)',
   footerBg:     '#0C2D5A',
   footerBorder: '#FBBF24',
-  qrBorder:     '#FBBF24',
+  qrBorder:     '#FFEE00',
   websiteText:  '#FBBF24',
 }
 
@@ -33,7 +33,7 @@ export const TEXT = {
   quote:        '\u201cThere is no god except the ONE God\u201d',
   citations:    'Deuteronomy 6:4-5  \u00b7  Luke 12:29-30  \u00b7  Quran 3:18',
   cta:          'WORSHIP GOD ALONE',
-  ctaSub:       'One Creator  \u00b7  One Truth  \u00b7  One Path',
+  ctaSub:       'ONE CREATOR  \u00b7  ONE TRUTH  \u00b7  ONE PATH',
   website:      'wikisubmission.org',
   qrLabel:      'SCAN QR',
   qrUrl:        'https://wikisubmission.org',
@@ -57,10 +57,12 @@ export const LAYOUT = {
   footerH:      76,    // border-box (includes 4px top border)
 
   // Typography (px in web, scaled to PDF points via s())
+  // Note: titleLine is 0.75 (web-corrected) vs 0.88 in Pencil —
+  // CSS line-height metrics add invisible space that Pencil's renderer doesn't.
   titleSize:    140,
   titleLine:    0.75,
   quoteSize:    30,
-  ctaSize:      46,
+  ctaSize:      48,
   citationSize: 9,
   ctaSubSize:   9,
   websiteSize:  10,
