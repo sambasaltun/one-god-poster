@@ -58,13 +58,14 @@ export default function GodAlonePoster() {
           }}>
             <div style={{ position: 'absolute', left: 0, top: 0, width: 8, height: '100%', background: p.strip }} />
             <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: 6, background: p.accent }} />
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 0 }}>
-              <h1 style={{ color: p.godText, fontSize: titleSize, fontWeight: 700, letterSpacing: -4, lineHeight: titleLine, margin: 0, fontFamily: serif }}>
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+              {/* lineHeight in px = Oswald cap height ≈ 72% of em, eliminates invisible line-box padding */}
+              <div style={{ color: p.godText, fontSize: titleSize, fontWeight: 700, letterSpacing: -4, lineHeight: `${Math.round(titleSize * 0.72)}px`, fontFamily: serif, textAlign: 'center', width: '100%' }}>
                 {t.heroTitle}
-              </h1>
-              <h2 style={{ color: p.aloneText, fontSize: titleSize, fontWeight: 700, letterSpacing: -4, lineHeight: titleLine, margin: 0, fontFamily: serif }}>
+              </div>
+              <div style={{ color: p.aloneText, fontSize: titleSize, fontWeight: 700, letterSpacing: -4, lineHeight: `${Math.round(titleSize * 0.72)}px`, fontFamily: serif, textAlign: 'center', width: '100%' }}>
                 {t.heroSubtitle}
-              </h2>
+              </div>
               <div style={{ width: 120, height: 5, background: p.aloneText, marginTop: 10, opacity: 0.6 }} />
             </div>
           </div>

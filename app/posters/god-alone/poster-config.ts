@@ -57,10 +57,10 @@ export const LAYOUT = {
   footerH:      76,    // border-box (includes 4px top border)
 
   // Typography (px in web, scaled to PDF points via s())
-  // Note: titleLine is 0.75 (web-corrected) vs 0.88 in Pencil —
-  // CSS line-height metrics add invisible space that Pencil's renderer doesn't.
+  // titleLine: used by PDF renderer (react-pdf uses numeric lineHeight)
+  // Web uses titleSize * 0.72 px (cap height) to eliminate CSS line-box padding.
   titleSize:    140,
-  titleLine:    0.75,
+  titleLine:    0.85,
   quoteSize:    30,
   ctaSize:      48,
   citationSize: 9,
