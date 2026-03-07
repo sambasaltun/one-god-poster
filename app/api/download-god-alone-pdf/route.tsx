@@ -59,21 +59,21 @@ function GodAloneDoc({ heroSrc, logoSrc, submittersSrc, qrSrc }: {
 
         {/* ── HERO ── */}
         <View style={{ height: heroH, position: 'relative', backgroundColor: '#FF6F00' }}>
-          {/* Warm-to-deep-orange overlay to simulate gradient */}
-          <View style={{ position: 'absolute', top: 0, left: 0, width: W, height: heroH, backgroundColor: '#BF360C', opacity: 0.55 }} />
+          {/* Dark overlay to deepen toward bottom */}
+          <View style={{ position: 'absolute', top: 0, left: 0, width: W, height: heroH, backgroundColor: '#BF360C', opacity: 0.45 }} />
           {/* Golden left strip */}
           <View style={{ position: 'absolute', top: 0, left: 0, width: s(8), height: heroH, backgroundColor: '#FFD700' }} />
           {/* Yellow bottom accent */}
           <View style={{ position: 'absolute', bottom: 0, left: 0, width: W, height: s(6), backgroundColor: '#FFEE00' }} />
-          {/* Text */}
-          <View style={{ position: 'absolute', top: 0, left: s(52), right: s(24), height: heroH, flexDirection: 'column', justifyContent: 'center', gap: s(2) }}>
-            <Text style={{ color: '#FFFFFF', fontSize: s(140), fontWeight: 'bold', lineHeight: 0.88, letterSpacing: s(-5) }}>
+          {/* Text — centered so Helvetica (wide) never overflows */}
+          <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: heroH, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: s(2) }}>
+            <Text style={{ color: '#FFFFFF', fontSize: s(110), fontWeight: 'bold', lineHeight: 0.9, textAlign: 'center' }}>
               GOD
             </Text>
-            <Text style={{ color: '#FFEE00', fontSize: s(140), fontWeight: 'bold', lineHeight: 0.88, letterSpacing: s(-5) }}>
+            <Text style={{ color: '#FFEE00', fontSize: s(110), fontWeight: 'bold', lineHeight: 0.9, textAlign: 'center' }}>
               ALONE
             </Text>
-            <View style={{ width: s(80), height: s(5), backgroundColor: 'rgba(255,255,255,0.55)', marginTop: s(4) }} />
+            <View style={{ width: s(120), height: s(5), backgroundColor: 'rgba(255,255,255,0.55)', marginTop: s(6) }} />
           </View>
         </View>
 
@@ -149,7 +149,7 @@ function GodAloneDoc({ heroSrc, logoSrc, submittersSrc, qrSrc }: {
 
 export async function GET() {
   const [heroSrc, logoSrc, submittersSrc, qrSrc] = await Promise.all([
-    Promise.resolve(loadImage('generated-1772866597238.png')),
+    Promise.resolve(loadImage('generated-1772868349064.png')),
     Promise.resolve(loadImage('logo-transparent.png')),
     Promise.resolve(loadImage('submitterslogo.png')),
     fetchQRCode('https://wikisubmission.org'),

@@ -99,7 +99,7 @@ export default function GodAlonePoster() {
           <div style={{ height: 94, flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/api/images/generated-1772866597238.png"
+              src="/api/images/generated-1772868349064.png"
               alt=""
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
             />
