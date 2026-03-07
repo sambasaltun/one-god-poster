@@ -1,0 +1,522 @@
+<!-- ═══════════════════════════════════════════════════
+     POSTER GALLERY — paste this into a Squarespace Code Block
+     Font: Cormorant Garamond + Space Mono via Google Fonts
+     ═══════════════════════════════════════════════════ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  .pg * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .pg {
+    background: #F8F6F1;
+    padding: 64px 24px 80px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: #0A0A0A;
+  }
+
+  /* ── HEADER ── */
+  .pg-header {
+    max-width: 960px;
+    margin: 0 auto 64px;
+    border-top: 2px solid #0A0A0A;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .pg-header-left .pg-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .pg-header-left h2 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 300;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .pg-header-right {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #999;
+    text-transform: uppercase;
+    text-align: right;
+  }
+
+  /* ── GRID ── */
+  .pg-grid {
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: #D4CFC8;
+    border: 1px solid #D4CFC8;
+  }
+
+  /* ── CARD BASE ── */
+  .pg-card {
+    background: #F8F6F1;
+    padding: 28px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .pg-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #D4CFC8;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #999;
+  }
+  .pg-card-num { color: #C9923A; font-weight: 700; }
+
+  .pg-card-title {
+    padding: 18px 0 4px;
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 300;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .pg-card-subtitle {
+    font-style: italic;
+    font-size: 14px;
+    color: #888;
+    padding-bottom: 20px;
+    font-weight: 300;
+  }
+
+  /* ── IFRAME WRAPPER ── */
+  .pg-iframe-wrap {
+    width: 100%;
+    aspect-ratio: 5 / 7;
+    border: 1px solid #D4CFC8;
+    overflow: hidden;
+    background: #0A1628;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .pg-iframe-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .pg-live-dot {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .pg-pulse {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #ef4444;
+    animation: pg-pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pg-pulse {
+    0%,100%{opacity:1;transform:scale(1)}
+    50%{opacity:.3;transform:scale(1.6)}
+  }
+
+  /* ── PRINT README ── */
+  .pg-readme {
+    border-top: 1px solid #D4CFC8;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .pg-readme-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #C9923A;
+  }
+  .pg-readme p {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #444;
+  }
+  .pg-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 16px;
+    padding: 16px;
+    background: #F0EDE6;
+    border: 1px solid #D4CFC8;
+  }
+  .pg-spec-item { display: flex; flex-direction: column; gap: 2px; }
+  .pg-spec-key {
+    font-family: 'Space Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #999;
+  }
+  .pg-spec-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: #0A0A0A;
+    font-weight: 700;
+  }
+  .pg-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .pg-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px 16px;
+    border: 1px solid #0A0A0A;
+    color: #0A0A0A;
+    transition: background .15s, color .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pg-btn:hover { background: #0A0A0A; color: #F8F6F1; }
+  .pg-btn-gold {
+    background: #C9923A;
+    border-color: #C9923A;
+    color: #fff;
+  }
+  .pg-btn-gold:hover { background: #a97730; border-color: #a97730; color: #fff; }
+
+  /* ── FORTHCOMING CARD ── */
+  .pg-card-forthcoming {
+    background: #F0EDE6;
+  }
+  .pg-forthcoming-area {
+    flex: 1;
+    min-height: 220px;
+    border: 1px dashed #C8C3BB;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+    padding: 32px;
+  }
+  .pg-forthcoming-area span {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #B0A99F;
+  }
+  .pg-forthcoming-line {
+    width: 32px;
+    height: 1px;
+    background: #C8C3BB;
+  }
+
+  /* ── PROPOSE CARD ── */
+  .pg-card-propose {
+    background: #0A0A0A;
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 40px 32px;
+  }
+  .pg-card-propose .pg-card-meta { border-color: #333; }
+  .pg-card-propose .pg-card-meta,
+  .pg-card-propose .pg-card-num { color: #666; }
+  .pg-propose-body h3 {
+    font-size: clamp(20px, 3.5vw, 32px);
+    font-weight: 300;
+    color: #F8F6F1;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .pg-propose-body p {
+    font-size: 13px;
+    font-weight: 300;
+    color: #888;
+    line-height: 1.7;
+    max-width: 440px;
+  }
+  .pg-btn-white {
+    border-color: #F8F6F1;
+    color: #F8F6F1;
+    white-space: nowrap;
+  }
+  .pg-btn-white:hover { background: #F8F6F1; color: #0A0A0A; }
+
+  /* ── FOOTER ── */
+  .pg-footer {
+    max-width: 960px;
+    margin: 40px auto 0;
+    border-top: 1px solid #D4CFC8;
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #B0A99F;
+  }
+</style>
+
+<div class="pg">
+
+  <!-- HEADER -->
+  <div class="pg-header">
+    <div class="pg-header-left">
+      <div class="pg-label">Los Angeles - Masjid of God — Public Works</div>
+      <h2>Poster<br><em>Exhibition</em></h2>
+    </div>
+    <div class="pg-header-right">
+      Vol. I · 2026<br>
+      Print-Ready · Free
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="pg-grid">
+
+    <!-- ── CARD 01: ONE GOD ONE MESSAGE ── -->
+    <div class="pg-card">
+      <div class="pg-card-meta">
+        <span class="pg-card-num">No. 01</span>
+        <span>Live · Updating</span>
+      </div>
+      <div class="pg-card-title">One God<br>One Message</div>
+      <div class="pg-card-subtitle">From the Dawn of Creation</div>
+
+      <div class="pg-iframe-wrap">
+        <iframe
+          src="https://my-vibe-project-nine.vercel.app/posters"
+          loading="lazy"
+          title="One God · One Message"
+          allowfullscreen>
+        </iframe>
+        <div class="pg-live-dot">
+          <span class="pg-pulse"></span> Live
+        </div>
+      </div>
+
+      <div class="pg-readme">
+        <div class="pg-readme-label">About this work</div>
+        <p>
+          A street poster inviting people of all faiths to reflect on the
+          singular message carried by the Torah, the Gospel, and the Quran —
+          worship God alone. Designed for high-visibility public display.
+        </p>
+
+        <div class="pg-specs">
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Format</span>
+            <span class="pg-spec-val">50×70 cm</span>
+          </div>
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Imperial</span>
+            <span class="pg-spec-val">20″ × 28″</span>
+          </div>
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Resolution</span>
+            <span class="pg-spec-val">300 DPI</span>
+          </div>
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Color</span>
+            <span class="pg-spec-val">RGB / CMYK</span>
+          </div>
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Bleed</span>
+            <span class="pg-spec-val">Full bleed</span>
+          </div>
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Paper</span>
+            <span class="pg-spec-val">170–200 gsm</span>
+          </div>
+        </div>
+
+        <div class="pg-readme-label">How to print</div>
+        <p>
+          Download the PDF below. Send it to any local or online print shop
+          and request: <strong>full-bleed poster print, 50×70 cm (or 20×28 in),
+          matte or semi-gloss finish, 170–200 gsm paper</strong>.
+          Services like Vistaprint, Canva Print, or your local FedEx Office
+          will accept this file as-is.
+        </p>
+
+        <div class="pg-actions">
+          <a class="pg-btn pg-btn-gold"
+             href="https://my-vibe-project-nine.vercel.app/posters/print"
+             target="_blank">
+            ↓ Download PDF
+          </a>
+          <a class="pg-btn"
+             href="https://my-vibe-project-nine.vercel.app/posters"
+             target="_blank">
+            ↗ Full Screen
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 02: GOD ALONE ── -->
+    <div class="pg-card">
+      <div class="pg-card-meta">
+        <span class="pg-card-num">No. 02</span>
+        <span>Live · Updating</span>
+      </div>
+      <div class="pg-card-title">God<br><em>Alone</em></div>
+      <div class="pg-card-subtitle">LDN 2026 · Street Manifesto</div>
+
+      <div class="pg-iframe-wrap">
+        <iframe
+          src="https://my-vibe-project-nine.vercel.app/posters/god-alone"
+          loading="lazy"
+          title="God Alone · LDN 2026"
+          allowfullscreen>
+        </iframe>
+        <div class="pg-live-dot">
+          <span class="pg-pulse"></span> Live
+        </div>
+      </div>
+
+      <div class="pg-readme">
+        <div class="pg-readme-label">About this work</div>
+        <p>
+          A bold London street poster proclaiming the eternal truth —
+          God Alone. Designed for maximum street visibility with
+          avant-garde typography, electric yellow and warm amber tones.
+          Print large, paste high, let it speak.
+        </p>
+
+        <div class="pg-specs">
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Format</span>
+            <span class="pg-spec-val">50×70 cm</span>
+          </div>
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Imperial</span>
+            <span class="pg-spec-val">20″ × 28″</span>
+          </div>
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Resolution</span>
+            <span class="pg-spec-val">300 DPI</span>
+          </div>
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Color</span>
+            <span class="pg-spec-val">RGB / CMYK</span>
+          </div>
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Bleed</span>
+            <span class="pg-spec-val">Full bleed</span>
+          </div>
+          <div class="pg-spec-item">
+            <span class="pg-spec-key">Style</span>
+            <span class="pg-spec-val">Street · Bold</span>
+          </div>
+        </div>
+
+        <div class="pg-readme-label">How to print</div>
+        <p>
+          Download the PDF below. Send it to any local or online print shop
+          and request: <strong>full-bleed poster print, 50×70 cm (or 20×28 in),
+          matte or semi-gloss finish, 170–200 gsm paper</strong>.
+          Services like Vistaprint, Canva Print, or your local FedEx Office
+          will accept this file as-is.
+        </p>
+
+        <div class="pg-actions">
+          <a class="pg-btn pg-btn-gold"
+             href="https://my-vibe-project-nine.vercel.app/posters/god-alone"
+             target="_blank">
+            ↗ View Poster
+          </a>
+          <a class="pg-btn"
+             href="https://my-vibe-project-nine.vercel.app/posters/god-alone"
+             target="_blank">
+            ↗ Full Screen
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CARD 03: FORTHCOMING ── -->
+    <div class="pg-card pg-card-forthcoming">
+      <div class="pg-card-meta">
+        <span class="pg-card-num">No. 03</span>
+        <span>Forthcoming</span>
+      </div>
+      <div class="pg-card-title" style="color:#B0A99F;">Untitled<br><em>Work</em></div>
+      <div class="pg-card-subtitle" style="color:#C8C3BB;">In production</div>
+
+      <div class="pg-forthcoming-area">
+        <span class="pg-forthcoming-line"></span>
+        <span>New poster arriving soon</span>
+        <span class="pg-forthcoming-line"></span>
+      </div>
+
+      <div class="pg-readme" style="opacity:.5; pointer-events:none;">
+        <div class="pg-readme-label">Details pending</div>
+        <p>This work is currently in design. Check back soon or submit an idea below.</p>
+      </div>
+    </div>
+
+    <!-- ── PROPOSE CARD ── -->
+    <div class="pg-card pg-card-propose">
+      <div class="pg-propose-body">
+        <div class="pg-card-meta" style="border:none; padding:0 0 12px;">
+          <span class="pg-card-num">Open Call</span>
+        </div>
+        <h3>Have a poster<br><em>idea?</em></h3>
+        <p>
+          We design and publish new works regularly. If you have a message,
+          a cause, or a concept you would like to see as a free street poster
+          — send it to us. Selected ideas will appear in this exhibition.
+        </p>
+      </div>
+      <a class="pg-btn pg-btn-white"
+         href="mailto:lamasjidofgod@gmail.com?subject=Poster Idea Submission">
+        → Submit your idea
+      </a>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- FOOTER -->
+  <div class="pg-footer">
+    <span>Los Angeles - Masjid of God · Free to print &amp; distribute</span>
+    <span>www.lamasjidofgod.com</span>
+  </div>
+
+</div><!-- /pg -->
