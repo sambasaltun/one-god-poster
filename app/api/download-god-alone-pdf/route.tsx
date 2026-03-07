@@ -11,7 +11,7 @@ let oswaldRegistered = false
 function ensureOswaldRegistered(): boolean {
   if (oswaldRegistered) return true
   try {
-    const fontPath = path.join(process.cwd(), 'public', 'fonts', 'Oswald-Bold.ttf')
+    const fontPath = path.join(process.cwd(), 'public', 'fonts', 'Oswald-Bold.woff')
     if (existsSync(fontPath)) {
       Font.register({ family: 'Oswald', src: fontPath, fontWeight: 700 })
       oswaldRegistered = true
@@ -201,8 +201,9 @@ export async function GET() {
     )
     pdfArrayBuffer = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer
   } catch (err) {
-    console.error('[PDF] renderToBuffer failed:', err)
-    return new NextResponse('PDF generation failed', { status: 500 })
+    const msg = err instanceof Error ? err.stack ?? err.message : String(err)
+    console.error('[PDF] renderToBuffer failed:', msg)
+    return new NextResponse(`PDF generation failed:\n${msg}`, { status: 500 })
   }
 
   return new Response(pdfArrayBuffer, {
