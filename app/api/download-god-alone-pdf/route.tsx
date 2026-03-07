@@ -96,23 +96,27 @@ function GodAloneDoc({ heroSrc, logoSrc, submittersSrc, qrSrc, useOswald }: {
       <Page size={[W, H]} style={{ margin: 0, padding: 0, backgroundColor: p.heroBgTop }}>
 
         {/* ── HERO ── */}
-        <View style={{ height: heroH, position: 'relative', backgroundColor: p.heroBgTop }}>
-          {/* Sky-blue gradient overlay (bottom half darker) */}
-          <View style={{ position: 'absolute', top: heroH / 2, left: 0, width: W, height: heroH / 2, backgroundColor: p.heroBgBot }} />
+        {/* Text is in normal flex flow so Yoga constrains it within heroH.
+            Background decorations are absolute (out of flow). */}
+        <View style={{ height: heroH, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Sky-blue background */}
+          <View style={{ position: 'absolute', top: 0, left: 0, width: W, height: heroH, backgroundColor: p.heroBgTop }} />
+          {/* Slightly darker bottom half */}
+          <View style={{ position: 'absolute', top: heroH * 0.5, left: 0, width: W, height: heroH * 0.5, backgroundColor: p.heroBgBot }} />
           {/* Navy left strip */}
           <View style={{ position: 'absolute', top: 0, left: 0, width: s(8), height: heroH, backgroundColor: p.strip }} />
           {/* Gold bottom accent */}
           <View style={{ position: 'absolute', bottom: 0, left: 0, width: W, height: s(6), backgroundColor: p.accent }} />
-          {/* Centered text */}
-          <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: heroH, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: s(2) }}>
-            <Text style={{ color: p.godText, fontSize: s(140), fontFamily: font, fontWeight: 700, lineHeight: 0.88, textAlign: 'center' }}>
-              GOD
-            </Text>
-            <Text style={{ color: p.aloneText, fontSize: s(140), fontFamily: font, fontWeight: 700, lineHeight: 0.88, textAlign: 'center' }}>
-              ALONE
-            </Text>
-            <View style={{ width: s(120), height: s(5), backgroundColor: p.aloneText, marginTop: s(10), opacity: 0.6 }} />
-          </View>
+          {/* GOD */}
+          <Text style={{ color: p.godText, fontSize: s(125), fontFamily: font, fontWeight: 700, lineHeight: 0.85, textAlign: 'center', width: W }}>
+            GOD
+          </Text>
+          {/* ALONE */}
+          <Text style={{ color: p.aloneText, fontSize: s(125), fontFamily: font, fontWeight: 700, lineHeight: 0.85, textAlign: 'center', width: W }}>
+            ALONE
+          </Text>
+          {/* Divider */}
+          <View style={{ width: s(120), height: s(5), backgroundColor: p.aloneText, marginTop: s(10), opacity: 0.6 }} />
         </View>
 
         {/* ── GOLD SEPARATOR ── */}

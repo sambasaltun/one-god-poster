@@ -79,10 +79,10 @@ export default function GodAlonePoster() {
               justifyContent: 'center', alignItems: 'center',
               gap: 0,
             }}>
-              <h1 style={{ color: p.godText, fontSize: 140, fontWeight: 700, letterSpacing: -4, lineHeight: 0.88, margin: 0, fontFamily: serif }}>
+              <h1 style={{ color: p.godText, fontSize: 140, fontWeight: 700, letterSpacing: -4, lineHeight: 0.75, margin: 0, fontFamily: serif }}>
                 GOD
               </h1>
-              <h2 style={{ color: p.aloneText, fontSize: 140, fontWeight: 700, letterSpacing: -4, lineHeight: 0.88, margin: 0, fontFamily: serif }}>
+              <h2 style={{ color: p.aloneText, fontSize: 140, fontWeight: 700, letterSpacing: -4, lineHeight: 0.75, margin: 0, fontFamily: serif }}>
                 ALONE
               </h2>
               <div style={{ width: 120, height: 5, background: p.aloneText, marginTop: 10, opacity: 0.6 }} />
