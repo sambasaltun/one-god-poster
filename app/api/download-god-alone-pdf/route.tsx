@@ -194,17 +194,18 @@ export async function GET() {
     fetchQRCode('https://wikisubmission.org'),
   ])
 
-  let buffer: Buffer
+  let pdfArrayBuffer: ArrayBuffer
   try {
-    buffer = await renderToBuffer(
+    const buf = await renderToBuffer(
       <GodAloneDoc heroSrc={heroSrc} logoSrc={logoSrc} submittersSrc={submittersSrc} qrSrc={qrSrc} useOswald={useOswald} />
     )
+    pdfArrayBuffer = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength) as ArrayBuffer
   } catch (err) {
     console.error('[PDF] renderToBuffer failed:', err)
     return new NextResponse('PDF generation failed', { status: 500 })
   }
 
-  return new NextResponse(buffer, {
+  return new Response(pdfArrayBuffer, {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': "attachment; filename=\"God-Alone-2026.pdf\"; filename*=UTF-8''God%20Alone%20%C2%B7%202026.pdf",
