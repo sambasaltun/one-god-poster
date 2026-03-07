@@ -2,27 +2,26 @@ import { NextResponse } from 'next/server'
 import { readFileSync, existsSync } from 'fs'
 import path from 'path'
 import React from 'react'
-import { Document, Font, Page, View, Text, Image, renderToStream } from '@react-pdf/renderer'
-import { Readable } from 'stream'
+import { Document, Font, Page, View, Text, Image, renderToBuffer } from '@react-pdf/renderer'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
 
 let oswaldRegistered = false
-function ensureOswaldRegistered() {
-  if (oswaldRegistered) return
+function ensureOswaldRegistered(): boolean {
+  if (oswaldRegistered) return true
   try {
     const fontPath = path.join(process.cwd(), 'public', 'fonts', 'Oswald-Bold.ttf')
     if (existsSync(fontPath)) {
       Font.register({ family: 'Oswald', src: fontPath, fontWeight: 700 })
       oswaldRegistered = true
+      return true
     }
   } catch {
-    // fall back to Helvetica if font registration fails
+    // fall back to Helvetica
   }
+  return false
 }
-
-const OSWALD: string = 'Oswald'
 
 // 50cm × 70cm in points (1cm = 28.3465pt)
 const CM = 28.3465
@@ -77,12 +76,14 @@ async function fetchQRCode(url: string): Promise<string> {
   }
 }
 
-function GodAloneDoc({ heroSrc, logoSrc, submittersSrc, qrSrc }: {
+function GodAloneDoc({ heroSrc, logoSrc, submittersSrc, qrSrc, useOswald }: {
   heroSrc: string
   logoSrc: string
   submittersSrc: string
   qrSrc: string
+  useOswald: boolean
 }) {
+  const font = useOswald ? 'Oswald' : 'Helvetica'
   const heroH   = s(300)
   const sepH    = s(4)
   const verseH  = s(116)
@@ -104,10 +105,10 @@ function GodAloneDoc({ heroSrc, logoSrc, submittersSrc, qrSrc }: {
           <View style={{ position: 'absolute', bottom: 0, left: 0, width: W, height: s(6), backgroundColor: p.accent }} />
           {/* Centered text */}
           <View style={{ position: 'absolute', top: 0, left: 0, right: 0, height: heroH, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: s(2) }}>
-            <Text style={{ color: p.godText, fontSize: s(140), fontFamily: 'Oswald', fontWeight: 700, lineHeight: 0.88, textAlign: 'center' }}>
+            <Text style={{ color: p.godText, fontSize: s(140), fontFamily: font, fontWeight: 700, lineHeight: 0.88, textAlign: 'center' }}>
               GOD
             </Text>
-            <Text style={{ color: p.aloneText, fontSize: s(140), fontFamily: 'Oswald', fontWeight: 700, lineHeight: 0.88, textAlign: 'center' }}>
+            <Text style={{ color: p.aloneText, fontSize: s(140), fontFamily: font, fontWeight: 700, lineHeight: 0.88, textAlign: 'center' }}>
               ALONE
             </Text>
             <View style={{ width: s(120), height: s(5), backgroundColor: p.aloneText, marginTop: s(10), opacity: 0.6 }} />
@@ -119,7 +120,7 @@ function GodAloneDoc({ heroSrc, logoSrc, submittersSrc, qrSrc }: {
 
         {/* ── VERSE SECTION ── */}
         <View style={{ height: verseH, backgroundColor: p.verseBg, flexDirection: 'column', justifyContent: 'center', paddingTop: s(14), paddingBottom: s(14), paddingLeft: s(28), paddingRight: s(28), gap: s(8) }}>
-          <Text style={{ color: p.quoteText, fontSize: s(30), fontFamily: 'Oswald', fontWeight: 700, lineHeight: 1.1 }}>
+          <Text style={{ color: p.quoteText, fontSize: s(30), fontFamily: font, fontWeight: 700, lineHeight: 1.1 }}>
             {'\u201c'}There is no god except the ONE God{'\u201d'}
           </Text>
           <Text style={{ color: p.citationText, fontSize: s(9), letterSpacing: s(3), fontWeight: 'bold' }}>
@@ -138,7 +139,7 @@ function GodAloneDoc({ heroSrc, logoSrc, submittersSrc, qrSrc }: {
 
         {/* ── CTA BAND ── */}
         <View style={{ height: ctaH, backgroundColor: p.ctaBg, borderTopWidth: s(4), borderTopColor: p.accent, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: s(6) }}>
-          <Text style={{ color: p.ctaText, fontSize: s(46), fontFamily: 'Oswald', fontWeight: 700, lineHeight: 1, textAlign: 'center' }}>
+          <Text style={{ color: p.ctaText, fontSize: s(46), fontFamily: font, fontWeight: 700, lineHeight: 1, textAlign: 'center' }}>
             WORSHIP GOD ALONE
           </Text>
           <Text style={{ color: p.ctaSub, fontSize: s(9), fontWeight: 'bold', letterSpacing: s(5), textAlign: 'center' }}>
@@ -184,7 +185,7 @@ function GodAloneDoc({ heroSrc, logoSrc, submittersSrc, qrSrc }: {
 }
 
 export async function GET() {
-  ensureOswaldRegistered()
+  const useOswald = ensureOswaldRegistered()
 
   const [heroSrc, logoSrc, submittersSrc, qrSrc] = await Promise.all([
     Promise.resolve(loadImage('generated-1772868349064.png')),
@@ -193,28 +194,17 @@ export async function GET() {
     fetchQRCode('https://wikisubmission.org'),
   ])
 
-  let nodeStream: Readable
+  let buffer: Buffer
   try {
-    nodeStream = await renderToStream(
-      <GodAloneDoc heroSrc={heroSrc} logoSrc={logoSrc} submittersSrc={submittersSrc} qrSrc={qrSrc} />
-    ) as unknown as Readable
+    buffer = await renderToBuffer(
+      <GodAloneDoc heroSrc={heroSrc} logoSrc={logoSrc} submittersSrc={submittersSrc} qrSrc={qrSrc} useOswald={useOswald} />
+    )
   } catch (err) {
-    console.error('[PDF] renderToStream failed:', err)
+    console.error('[PDF] renderToBuffer failed:', err)
     return new NextResponse('PDF generation failed', { status: 500 })
   }
 
-  const webStream = new ReadableStream({
-    start(controller) {
-      nodeStream.on('data', (chunk: Buffer) => controller.enqueue(chunk))
-      nodeStream.on('end', () => controller.close())
-      nodeStream.on('error', (err: Error) => {
-        console.error('[PDF] stream error:', err)
-        controller.error(err)
-      })
-    },
-  })
-
-  return new NextResponse(webStream, {
+  return new NextResponse(buffer, {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': "attachment; filename=\"God-Alone-2026.pdf\"; filename*=UTF-8''God%20Alone%20%C2%B7%202026.pdf",
